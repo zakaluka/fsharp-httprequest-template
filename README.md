@@ -21,15 +21,12 @@ $ faas-cli new --lang fsharp-httprequest <function name>
 In the directory that was created, using the name of you function, you'll find `FunctionHandler.fs`. It will look like this:
 
 ```fsharp
-
+module Say =
+  let hello (name: string) : HttpHandler =
+    fun (next: HttpFunc) (ctx: HttpContext) ->
+      (text $"Hey %s{name}, how's it going?") next ctx
 ```
 
 This is a simple implementation of a hello-world function.
 
 You are able to add packages to your function using the `dotnet add package` syntax. The packages will be added to your final function's container automatically.
-
-For example, you could add the popular `Newtonsoft.JSON` package for formatting JSON objects.
-
-```fsharp
-TODO
-```

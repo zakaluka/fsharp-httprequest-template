@@ -6,7 +6,7 @@ Based on distantcam's [csharp-httprequest-template](https://github.com/distantca
 
 This repository contains the template for OpenFaaS using the upgraded `of-watchdog` which allows for higher throughput.  It has the following features:
 
-- Based on .NET 6.0 and .NET Standard 2.1
+- Based on .NET 6.0
 - Uses the excellent [Giraffe](https://github.com/giraffe-fsharp/Giraffe) functional wrapper over ASP.NET
 - Everything else is extremely minimal and can be customized to fit your needs.
 

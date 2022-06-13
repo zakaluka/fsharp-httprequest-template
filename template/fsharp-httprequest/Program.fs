@@ -1,35 +1,35 @@
 ﻿namespace fsharp_httprequest
 
 open System
-open System.Collections.Generic
-open System.IO
-open System.Linq
-open System.Threading.Tasks
-open Microsoft.AspNetCore
 open Microsoft.AspNetCore.Hosting
-open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
-open System
 open Microsoft.AspNetCore.Builder
-open Microsoft.AspNetCore.Hosting
-open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
-open Microsoft.Extensions.Hosting
 open Giraffe
-open Microsoft.Extensions.Logging
+open Function
 
 module Program =
   let errorHandler (ex: Exception) (logger: ILogger) =
-    logger.LogError(EventId(), ex, "An unhandled exception has occurred while executing the request.")
+    logger.LogError(
+      EventId(),
+      ex,
+      "An unhandled exception has occurred while executing the request."
+    )
 
     clearResponse
     >=> setStatusCode 500
     >=> text ex.Message
 
   let webApp =
-    choose [ route "/" >=> Successful.OK "get hola que tal" 
-             RequestErrors.notFound <| text "Not Found" ]
+    let warbler f a = f a a
+
+    choose [ GET
+             >=> route "/"
+             >=> text "Hello unknown stranger!"
+             routef "/%s" Say.hello
+
+             RequestErrors.notFound <| text "Not a real path" ]
 
   let configureApp (app: IApplicationBuilder) =
     app
@@ -43,8 +43,15 @@ module Program =
     svc.AddDataProtection() |> ignore
 
   let configureLogging (loggerBuilder: ILoggingBuilder) =
+    let filter (l: LogLevel) =
+      l.Equals LogLevel.Critical
+      || l.Equals LogLevel.Error
+      || l.Equals LogLevel.Warning
+      || l.Equals LogLevel.Information
+
     loggerBuilder
-      .AddFilter(fun lvl -> lvl.Equals LogLevel.Error)
+      .ClearProviders()
+      .AddFilter(filter)
       .AddConsole()
       .AddDebug()
     |> ignore
@@ -57,16 +64,13 @@ module Program =
           .Configure(configureApp)
           .ConfigureServices(configureServices)
           .ConfigureLogging(configureLogging)
-          .UseUrls([| "http://localhost:5000" |])
+          .UseUrls([| "http://0.0.0.0:5000" |])
         |> ignore)
 
   [<EntryPoint>]
   let main args =
     printfn "Starting server..."
-    let host = createHostBuilder(args).Build()
-
-    host.Run()
+    createHostBuilder(args).Build().Run()
     printfn "Server running..."
-
 
     0 // Exit code

@@ -1,75 +1,35 @@
-# OpenFaaS C# HTTP Template
+# Overview
 
-This repository contains the template for OpenFaaS using the upgraded `of-watchdog` which allows for higher throughput.
+Based on distantcam's [csharp-httprequest-template](https://github.com/distantcam/csharp-httprequest-template).
 
-```
-$ faas template store pull csharp-httprequest
-$ faas new --list
-Languages available as templates:
-- csharp-httprequest
-```
+# OpenFaaS F# HTTP Template
 
-This template uses a middleware handler in an ASPNET Core Web API. This allows additional context available in the request (by providing the full body to the handler) and more control over the response by passing it back to the HTTP reponse context.
+This repository contains the template for OpenFaaS using the upgraded `of-watchdog` which allows for higher throughput.  It has the following features:
+
+- Based on .NET 6.0 and .NET Standard 2.1
+- Uses the excellent [Giraffe](https://github.com/giraffe-fsharp/Giraffe) functional wrapper over ASP.NET
+- Everything else is extremely minimal and can be customized to fit your needs.
 
 ## Using the template
 First, pull the template with the faas CLI and create a new function:
 
 ```
-$ faas template store pull csharp-httprequest
-$ faas-cli new --lang csharp-httprequest <function name>
+$ faas template store pull fsharp-httprequest
+$ faas-cli new --lang fsharp-httprequest <function name>
 ```
 
-In the directory that was created, using the name of you function, you'll find `FunctionHandler.cs`. It will look like this:
+In the directory that was created, using the name of you function, you'll find `FunctionHandler.fs`. It will look like this:
 
-``` csharp
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using System.Threading.Tasks;
+```fsharp
 
-namespace Function
-{
-    public class FunctionHandler
-    {
-        public async Task<(int, string)> Handle(HttpRequest request)
-        {
-            var reader = new StreamReader(request.Body);
-            var input = await reader.ReadToEndAsync();
-
-            return (200, $"Hello! Your input was {input}");
-        }
-    }
-}
 ```
 
-This is a simple implementation of a hello-world function. 
+This is a simple implementation of a hello-world function.
 
 You are able to add packages to your function using the `dotnet add package` syntax. The packages will be added to your final function's container automatically.
 
 For example, you could add the popular `Newtonsoft.JSON` package for formatting JSON objects.
 
-```csharp
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-
-namespace Function
-{
-    public class SampleResponse
-    {
-        public string FunctionStatus { get; set; }
-    }
-    
-    public class FunctionHandler
-    {
-        public Task<(int, string)> Handle(HttpRequest request)
-        {
-            var res = new SampleResponse();
-            res.FunctionStatus = "Success";
-
-            var output = JsonConvert.SerializeObject(res);
-
-            return Task.FromResult((200, output));
-        }
-    }
-}
+```fsharp
+TODO
 ```

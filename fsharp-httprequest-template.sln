@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32510.428
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "fsharp-httprequest", "template\fsharp-httprequest\root.fsproj", "{47C81B24-A980-4773-AF7D-68643932BF2D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "root", "template\fsharp-httprequest\root.fsproj", "{47C81B24-A980-4773-AF7D-68643932BF2D}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Function", "template\fsharp-httprequest\Function\Function.fsproj", "{649C1BE4-881B-424C-A6BA-3FB3D82E1AAE}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Function", "template\fsharp-httprequest\Function\Function.fsproj", "{649C1BE4-881B-424C-A6BA-3FB3D82E1AAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A83C7CD-3E74-4C90-A8AB-A97E57C6B8CD}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

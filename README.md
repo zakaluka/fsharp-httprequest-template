@@ -27,6 +27,17 @@ module Say =
       (text $"Hey %s{name}, how's it going?") next ctx
 ```
 
-This is a simple implementation of a hello-world function.
+This is a simple implementation of a hello-world function running on HTTP.  Be sure to modify the routing in `Program.fs` to match your solution's needs.
 
 You are able to add packages to your function using the `dotnet add package` syntax. The packages will be added to your final function's container automatically.
+
+## Running the solution locally
+
+To run this on `localhost:8082`, you can execute the following steps from the solution folder with the `Dockerfile`:
+
+```shell
+$ docker build . # this will output a build number
+$ docker run -p 8082:8080 <build number>
+```
+
+Once running, point your browser to http://localhost:8082 or http://localhost:8082/aName to see the results.

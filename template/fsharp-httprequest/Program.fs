@@ -27,6 +27,7 @@ module Program =
     choose [ GET
              >=> route "/"
              >=> text "Hello unknown stranger!"
+
              routef "/%s" Say.hello
 
              RequestErrors.notFound <| text "Not a real path" ]

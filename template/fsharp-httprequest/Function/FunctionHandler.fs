@@ -7,12 +7,20 @@ open System
 module Say =
   let hello (names: string seq) : HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
-      let namesSplit =
+      let pathNames =
         names
         |> Seq.collect (fun e -> e.Split('/'))
         |> Seq.filter (String.IsNullOrWhiteSpace >> not)
-      (match Seq.length namesSplit with
-      | 0 -> text "Howdy stranger!"
-      | 1 -> text $"Hello, my one and only friend %s{Seq.head namesSplit}"
-      | _ -> String.Join(", ", namesSplit) |> sprintf "Hello all my friends %s!" |> text
-      ) next ctx 
+
+      let pathNameMsg =
+        match Seq.length pathNames with
+        | 0 -> "Howdy path-based stranger!"
+        | 1 -> $"Hello, my one and only friend %s{Seq.head pathNames}"
+        | _ -> String.Join(", ", pathNames) |> sprintf "Hi path friends %s!"
+
+      let queryNameMsg =
+        match ctx.TryGetQueryStringValue "names" with
+        | None -> "Hello query stranger!"
+        | Some n -> $"Hi query friends %s{n}"
+
+      text $"%s{pathNameMsg}\n%s{queryNameMsg}" next ctx

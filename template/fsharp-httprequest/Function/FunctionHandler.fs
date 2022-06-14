@@ -2,8 +2,17 @@
 
 open Giraffe
 open Microsoft.AspNetCore.Http
+open System
 
 module Say =
-  let hello (name: string) : HttpHandler =
+  let hello (names: string seq) : HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
-      (text $"Hey %s{name}, how's it going?") next ctx
+      let namesSplit =
+        names
+        |> Seq.collect (fun e -> e.Split('/'))
+        |> Seq.filter (String.IsNullOrWhiteSpace >> not)
+      (match Seq.length namesSplit with
+      | 0 -> text "Howdy stranger!"
+      | 1 -> text $"Hello, my one and only friend %s{Seq.head namesSplit}"
+      | _ -> String.Join(", ", namesSplit) |> sprintf "Hello all my friends %s!" |> text
+      ) next ctx 

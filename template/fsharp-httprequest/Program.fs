@@ -24,12 +24,7 @@ module Program =
   let webApp =
     let warbler f a = f a a
 
-    choose [ GET
-             >=> route "/"
-             >=> text "Hello unknown stranger!"
-
-             routef "/%s" Say.hello
-
+    choose [ GET >=> routexp @".*" Say.hello
              RequestErrors.notFound <| text "Not a real path" ]
 
   let configureApp (app: IApplicationBuilder) =

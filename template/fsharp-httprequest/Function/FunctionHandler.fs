@@ -1,8 +1,8 @@
 ﻿namespace Function
 
 open Giraffe
-open Microsoft.AspNetCore.Http
 open System
+open Microsoft.AspNetCore.Http
 
 module Say =
   let hello (names: string seq) : HttpHandler =

@@ -1,13 +1,14 @@
 ﻿namespace fsharp_httprequest
 
 open System
+open Function
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
-open Function
+open parseurl
 
 module Program =
   let errorHandler (ex: Exception) (logger: ILogger) =
@@ -17,15 +18,14 @@ module Program =
       "An unhandled exception has occurred while executing the request."
     )
 
-    clearResponse
-    >=> setStatusCode 500
-    >=> text ex.Message
+    clearResponse >=> setStatusCode 500 >=> text ex.Message
 
   let webApp =
     let warbler f a = f a a
 
-    choose [ routexp @".*" Say.hello
-             RequestErrors.notFound <| text "Not a real path" ]
+    choose
+      [ routexp @".*" Say.hello
+        RequestErrors.notFound <| text "Not a real path" ]
 
   let configureApp (app: IApplicationBuilder) =
     app
@@ -45,11 +45,7 @@ module Program =
       || l.Equals LogLevel.Warning
       || l.Equals LogLevel.Information
 
-    loggerBuilder
-      .ClearProviders()
-      .AddFilter(filter)
-      .AddConsole()
-      .AddDebug()
+    loggerBuilder.ClearProviders().AddFilter(filter).AddConsole().AddDebug()
     |> ignore
 
   let createHostBuilder args =

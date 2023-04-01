@@ -8,7 +8,6 @@ open Microsoft.Extensions.Logging
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
-open parseurl
 
 module Program =
   let errorHandler (ex: Exception) (logger: ILogger) =
@@ -24,7 +23,7 @@ module Program =
     let warbler f a = f a a
 
     choose
-      [ routexp @".*" Say.hello
+      [ routexp @".*" parseurl.run
         RequestErrors.notFound <| text "Not a real path" ]
 
   let configureApp (app: IApplicationBuilder) =

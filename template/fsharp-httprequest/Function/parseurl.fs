@@ -7,7 +7,8 @@ open Giraffe
 module parseurl =
 
   let run (names: string seq) : HttpHandler =
-        fun (next: HttpFunc) (ctx: HttpContext)  ->
+      fun (next: HttpFunc) (ctx: HttpContext) ->
+        task {
           let urlOpt = 
             ctx.TryGetQueryStringValue "url"
             |> Option.defaultValue ""
@@ -29,7 +30,7 @@ module parseurl =
                |> Seq.choose (fun x ->
                  x.TryGetAttribute("name")
                  |> Option.map (fun a -> a.Value(), x.AttributeValue("content"))))
-    
-          let dict = Seq.append openGraphProperties authorAppValues |> dict
-    
-          json dict next ctx
+
+          let fullDict = Seq.append openGraphProperties authorAppValues |> dict
+          return! json fullDict next ctx
+        } 

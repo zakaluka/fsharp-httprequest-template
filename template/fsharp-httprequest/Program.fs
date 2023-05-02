@@ -20,10 +20,8 @@ module Program =
     clearResponse >=> setStatusCode 500 >=> text ex.Message
 
   let webApp =
-    let warbler f a = f a a
-
     choose
-      [ routexp @".*" parseurl.run
+      [ routexp @".*" parseurl.run  
         RequestErrors.notFound <| text "Not a real path" ]
 
   let configureApp (app: IApplicationBuilder) =
@@ -55,7 +53,7 @@ module Program =
           .Configure(configureApp)
           .ConfigureServices(configureServices)
           .ConfigureLogging(configureLogging)
-          .UseUrls([| "http://0.0.0.0:5000" |])
+          .UseUrls([| "http://0.0.0.0:5003" |])
         |> ignore)
 
   [<EntryPoint>]

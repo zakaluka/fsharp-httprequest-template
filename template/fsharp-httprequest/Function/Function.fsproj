@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
@@ -11,9 +11,9 @@
 
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="5.0.2" />
+    <PackageReference Include="FSharp.SystemTextJson" Version="1.1.23" />
     <PackageReference Include="Giraffe" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Update="FSharp.Core" Version="7.0.200" />
-    <PackageReference Include="System.Text.Json" Version="7.0.2" />
   </ItemGroup>
 </Project>

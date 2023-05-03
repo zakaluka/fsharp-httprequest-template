@@ -37,8 +37,8 @@ USER app
 ENV fprocess="dotnet ./root.dll"
 ENV cgi_headers="true"
 ENV mode="http"
-ENV upstream_url="http://localhost:5003"
-EXPOSE 5003
+ENV upstream_url="http://localhost:5001"
+EXPOSE 5001
 
 HEALTHCHECK --interval=3s CMD [ -e /tmp/.lock ] || exit 1
 

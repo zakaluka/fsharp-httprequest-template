@@ -15,7 +15,7 @@ This repository contains the template for OpenFaaS using the upgraded `of-watchd
 First, pull the template with the faas CLI and create a new function:
 
 ```
-$ faas template store pull fsharp-httprequest
+$ faas template store pull https://github.com/zakaluka/fsharp-httprequest-template
 $ faas-cli new --lang fsharp-httprequest <function name>
 ```
 

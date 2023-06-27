@@ -1,6 +1,6 @@
 FROM ghcr.io/openfaas/of-watchdog:0.9.6 as watchdog
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 as builder
+FROM mcr.microsoft.com/dotnet/sdk:7.0 as builder
 
 # Supress collection of data.
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
@@ -19,7 +19,7 @@ COPY .  .
 
 RUN dotnet publish -c release -o published
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 
 COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
 RUN chmod +x /usr/bin/fwatchdog
@@ -37,8 +37,8 @@ USER app
 ENV fprocess="dotnet ./root.dll"
 ENV cgi_headers="true"
 ENV mode="http"
-ENV upstream_url="http://localhost:5000"
-EXPOSE 8080
+ENV upstream_url="http://localhost:5001"
+EXPOSE 5001
 
 HEALTHCHECK --interval=3s CMD [ -e /tmp/.lock ] || exit 1
 

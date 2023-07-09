@@ -20,9 +20,8 @@ module Program =
     clearResponse >=> setStatusCode 500 >=> text ex.Message
 
   let webApp =
-    choose
-      [ routexp @".*" parseurl.run  
-        RequestErrors.notFound <| text "Not a real path" ]
+    choose [ routexp @".*" parseurl.run
+             RequestErrors.notFound <| text "Not a real path" ]
 
   let configureApp (app: IApplicationBuilder) =
     app
